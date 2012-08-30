@@ -1,0 +1,41 @@
+/* CSS Document */
+
+.source {
+	margin:1.5em 0;	
+	width:auto;
+	height:auto;
+	
+}
+.source-desc {
+	width:100%;
+	height:auto;
+	display:block;
+	float:left;
+	font-style:oblique;
+	font-weight:bold;
+	font-size:larger;
+}
+.source-url {
+	height:auto;
+	width:auto;
+	margin:0;
+}
+.source-feed {
+	height:auto;
+	width:100%;
+	margin:0;
+	display:inline-block;
+	
+}
+.source-feed-link {
+	width:80%;
+	height:auto;
+	float:left;
+	word-wrap:break-word;
+	
+}
+.source-feed-type {
+	width:20%;
+	height:auto;
+	float:right;	
+}

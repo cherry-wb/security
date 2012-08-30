@@ -1,0 +1,27 @@
+<html>
+    <head><title>test</title></head>
+    <script type='text/javascript' src="_scripts/jquery.js"></script>
+    <script type='text/javascript'>
+
+    </script>
+    <body>
+	<?php
+	$con = mysql_connect('localhost', 'root', '');
+	mysql_select_db('security_r2', $con) or die(mysql_error());
+
+	$sql = "SELECT 
+		    *
+		FROM
+		    feed_vulns
+		WHERE
+		    score IS NULL AND
+		    fiid=11";
+	$query = mysql_query($sql) or die(mysql_error());
+
+	while ($row = mysql_fetch_object($query)) {
+	    $sql = "UPDATE feed_vulns SET visited=0 WHERE fvid='$row->fvid'";
+	    mysql_query($sql) or die(mysql_error());
+	}
+	?>
+    </body>
+</html>

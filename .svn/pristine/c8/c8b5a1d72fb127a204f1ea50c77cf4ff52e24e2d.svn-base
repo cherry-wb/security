@@ -1,0 +1,26 @@
+root { 
+    display: block;
+}
+
+body {
+    margin: 0;
+
+    font-family: Calibri;
+}
+
+#header {
+    background-image:url('../../_images/searchBackground.png');
+    background-repeat:repeat;
+    margin:0;
+    font: white;
+    width:100%;
+    padding:0;
+    display:inline-block;
+}
+#sapLogo {
+    float:left;
+    border:0px;
+    width:auto;
+    padding:0px;
+    margin:0;
+}

@@ -1,0 +1,82 @@
+<html>
+    <head>
+	<title>Feed Downloader</title>
+    </head>
+    <body>
+	<?php
+	header('refresh: 600'); //auto refresh every X seconds
+	require '_functions/sqlConnect.php';
+	require '_functions/feedDownloadFunctions.php';
+
+	ini_set('max_execution_time', 300); //300 seconds timeout time
+	ini_set('memory_limit', '512M'); // 512 Megabyte memory usage 
+	error_reporting(0);
+	gc_enable();
+	$sql = "SELECT 
+		    fi.*, s.sid 
+		FROM	
+		    feed_info AS fi, 
+		    source_feed_map AS sfm, 
+		    sources AS s 
+		WHERE 
+		    sfm.fid = 1 AND 
+		    sfm.mapid = fi.mapid AND 
+		    s.sid = sfm.sid AND 
+		    s.status = 1";
+
+	$feeds = mysql_query($sql) or die(mysql_error());
+	$count = 0;
+	while ($row = mysql_fetch_object($feeds)) {
+	    $url = $row->url;
+	    $fiid = $row->fiid;
+
+
+	    // BEGIN CURL 
+	    $curl = curl_init();
+	    curl_setopt($curl, CURLOPT_URL, $url);
+	    curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5);
+	    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+	    curl_setopt($curl, CURLOPT_HEADER, 0);
+	    curl_setopt($curl, CURLOPT_PROXY, "proxy.van.sap.corp");
+	    curl_setopt($curl, CURLOPT_PROXYPORT, 8080);
+	    $buffer = curl_exec($curl);
+	    curl_close($curl);
+
+	    if (empty($buffer)) {
+		die("Error: cURL buffer empty from: $url");
+	    }
+
+
+	    $dom = new DOMDocument;
+	    $dom->loadXML($buffer);
+	    $xml = simplexml_import_dom($dom);
+
+	    $existingItems = getExistingItems($fiid);
+
+	    //var_dump($xml);
+	    // RSS FEEDS (well formed rss has channel tag)
+	    if ($xml->channel) {
+		foreach ($xml->channel->item as $key => $item) {
+		    if (!alreadyExists($item, $existingItems)) {
+			insertItemIntoDatabase($item, $fiid);
+			++$count;
+			var_dump($item);
+		    }
+		}
+	    }
+	    // NVD NIST separates item from channel
+	    if ($xml->item) {
+		foreach ($xml->item as $key => $item) {
+		    if (!alreadyExists($item, $existingItems)) {
+			insertItemIntoDatabase($item, $fiid);
+			++$count;
+			var_dump($item);
+		    }
+		}
+	    }
+	}
+	echo $count . '<br>';
+	echo(date(DATE_RFC822) . "<br />");
+	?>
+    </body>
+</html>

@@ -1,0 +1,73 @@
+@charset "utf-8";
+/* CSS Document */
+
+#adminOptions {
+	width:650px;
+	height:auto;
+	padding:0;
+	margin:auto;	
+}
+#insertSource {
+	width:650px;
+	height:auto;
+	margin:auto;
+	
+}
+#sourceList {
+	width:650px;
+	height:auto;
+	margin:auto;	
+}
+table {
+	width:100%;
+	overflow:hidden;
+	table-layout:fixed;
+	word-wrap:break-word;	
+}
+td {
+	vertical-align:top;
+	text-align:left;	
+}
+.source {
+	margin:2px 0;
+	width:100%;
+	height:auto;
+	overflow:visible;
+	display:inline-block;	
+}
+.source-info {
+	width:100%;
+	height:auto;
+	overflow:visible;
+	display:inline-block;	
+}
+.source-desc {
+	width:40%;
+	height:auto;
+	float:left;
+}
+.source-url {
+	width:40%;
+	height:auto;
+	float:left;
+}
+.source-enable {
+	width:auto;
+	height:auto;
+	float:right;
+}
+.source-feeds {
+	width:100%;
+	height:auto;
+	word-wrap:break-word;
+	display:inline-block;
+}
+#manual-feed-download-container {
+	float:left;	
+	width:auto;
+	height:auto;
+	
+}
+#onetime-db-importer-container {
+	float:right;	
+}
